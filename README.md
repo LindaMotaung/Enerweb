@@ -48,3 +48,12 @@ No Identity/Auth implemented	            We skipped JWT-based authentication for
 Lack of authorization control	            Any user can hit endpoints; no role-based or permission validation.
 Added complexity from layering	          Overkill for small apps, adds verbosity and learning curve.
 Initial dev cost	                        More code and boilerplate upfront compared to a simple monolith.
+
+**Security & Monitoring Considerations**
+**Aspect**	                                      **Notes**
+Authentication	                           Not implemented — no JWT or token-based auth. Vulnerable to open access.
+Fix:	                                     Integrate JWT via Identity Server, Firebase Auth, or ASP.NET Identity.
+Monitoring	                               Not configured — no logging, tracing, or telemetry setup.
+Fix:	                                     Add Serilog, Seq, Application Insights, or ELK stack.
+Data Validation	                           Done via models and controller-level validation.
+CORS	                                     Not explicitly configured — ensure only trusted frontends can call the API. Accepting all CORS for simplicity of dev environment however IPs should either be whitelisted and requests coming from the same netwrok in prod
