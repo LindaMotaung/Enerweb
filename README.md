@@ -71,3 +71,9 @@ Unit tests cover repositories and services.
 The frontend is being developed using modern React (Vite).
 We deliberately omitted authentication and monitoring for time and scope constraints.
 However, that decision leaves our API exposed and should be addressed before production.
+
+![image](https://github.com/user-attachments/assets/c9998a58-9c2d-425c-ac1e-d80605049f6f)
+
+**Stopwatch Result**
+![image](https://github.com/user-attachments/assets/f36b5969-e2b7-4ec3-bc21-7dc9acee95cf)
+
