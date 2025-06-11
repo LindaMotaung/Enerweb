@@ -1,6 +1,14 @@
 import DietaryTags from '../features/recipes/enums/EDietaryTags';
 
-const dietaryTagsMapper = (dietaryTagsString: string): number => {
+const dietaryTagsMapper = (dietaryTagsString: string | string[]): number => {
+  if (Array.isArray(dietaryTagsString)) {
+    dietaryTagsString = dietaryTagsString[0];
+  }
+  
+  if (typeof dietaryTagsString !== "string") {
+    throw new Error(`Invalid dietary tag type: ${typeof dietaryTagsString}`);
+  }
+
     switch (dietaryTagsString.toLowerCase()) {
       case 'keto':
         return DietaryTags.Keto;

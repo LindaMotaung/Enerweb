@@ -40,15 +40,19 @@ const CreateRecipe: React.FC<Props> = ({ onAddRecipe, recipes }) => {
       ingredients: ingredients,
       steps: steps,
       cookingTime: cookingTime,
-      dietaryTagId: dietaryTagsMapperId,
+      dietaryTags: [dietaryTag],
+      //dietaryTagId: dietaryTagsMapperId,
     };
+
+    console.log('newRecipe:', newRecipe);
+
     try {
       const response = await RestService.addRecipe(newRecipe);
       console.log('Created recipe response:', response.data);
       setSuccessMessage(`Recipe "${title}" created successfully!`);
       setTimeout(() => {
         setSuccessMessage('');
-        navigate(`/recipes/RecipeDetails/${response.data.ID}`);
+        navigate(`/recipes/${response.data.ID}`);
       }, 800);
     } catch (error) {
       console.error(error);

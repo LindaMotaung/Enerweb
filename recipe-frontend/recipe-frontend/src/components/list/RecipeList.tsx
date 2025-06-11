@@ -9,7 +9,8 @@ import { useState } from 'react';
 import RecipeDetails from '../details/RecipeDetails';
 
 interface IRecipe {
-  ID: number;
+  // ID: number;
+  id: number;
   title: string;
   ingredients: string;
   steps: string;
@@ -30,10 +31,10 @@ const RecipeListComponent: React.FC<Props> = ({ recipes: recipeList, onDeleteRec
 
   const onUpdateRecipe = async (recipe: IRecipe) => {
     try {
-      console.log('Console log request for update: ', recipe.ID, ' + ', recipe);
-      const response = await RestService.updateRecipe(recipe.ID, recipe);
+      console.log('Console log request for update: ', recipe.id, ' + ', recipe);
+      const response = await RestService.updateRecipe(recipe.id, recipe);
       console.log('Console log response for update: ', response);
-      setLocalRecipes(localRecipes.map((b) => (b.ID === recipe.ID ? recipe : b)));
+      setLocalRecipes(localRecipes.map((b) => (b.id === recipe.id ? recipe : b)));
     } catch (error) {
       console.error(error);
     }
@@ -45,7 +46,7 @@ const RecipeListComponent: React.FC<Props> = ({ recipes: recipeList, onDeleteRec
       if (response.status === 200 || response.status === 204) {
         console.log('Recipe deleted successfully');
         // Update the recipe list to reflect the deletion
-        setLocalRecipes(localRecipes.filter((recipe) => recipe.ID !== id));
+        setLocalRecipes(localRecipes.filter((recipe) => recipe.id !== id));
       } else {
         console.error('Failed to delete recipe');
       }
@@ -53,14 +54,6 @@ const RecipeListComponent: React.FC<Props> = ({ recipes: recipeList, onDeleteRec
       console.error('Error deleting recipe:', error);
     }
   };
-
-  const handleEditRecipe = async (recipe: IRecipe) => {
-  // For now, we're just simulating an edit by modifying the title
-  const updatedRecipe = { ...recipe, title: recipe.title };
-
-  // Call the update method
-  await onUpdateRecipe(updatedRecipe);
-};
 
   return (
     <div className="recipe-list-container">
@@ -77,40 +70,26 @@ const RecipeListComponent: React.FC<Props> = ({ recipes: recipeList, onDeleteRec
           </tr>
         </thead>
         <tbody>
-          {localRecipes.map((recipe) => (
-            <tr key={recipe.ID}>
-              <td>{recipe.title}</td>
-              <td>{recipe.ingredients}</td>
-              <td>{recipe.steps}</td>
-              <td>{recipe.cookingTime}</td>
-              <td>{recipe.dietaryTags}</td>
-              <td>
-                <Link
-                  to={`/recipes/${recipe.ID}`}
-                  className="button details-button"
-                >
-                  Details
-                </Link>
-              </td>
-              <td>
-                <button
-                  onClick={() => handleEditRecipe(recipe)}
-                  className="button edit-button"
-                >
-                  Edit
-                </button>
-              </td>
-              <td>
-                <button
-                  onClick={() => handleDeleteRecipe(recipe.ID)}
-                  className="button delete-button"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        {localRecipes.map((recipe, index) => (
+          <tr key={recipe.id || index}>
+            <td>{recipe.title}</td>
+            <td>{recipe.ingredients}</td>
+            <td>{recipe.steps}</td>
+            <td>{recipe.cookingTime}</td>
+            <td>{recipe.dietaryTags}</td>
+            <td>
+              <Link to={`/recipes/${recipe.id}`} className="button details-button" >
+                Details
+              </Link>
+            </td>
+            <td>
+              <button onClick={() => handleDeleteRecipe(recipe.id)} className="button delete-button" >
+                Delete
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
       </table>
       <div className="add-recipe-button-container">
         <Link to="/create" className="button add-recipe-button">

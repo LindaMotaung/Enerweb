@@ -10,7 +10,7 @@ import { RestService } from './services/RestService';
 
 interface IRecipeApp {
   //id: number;
-  ID: number;
+  id: number;
   title: string;
   ingredients: string;
   steps: string;
@@ -38,7 +38,7 @@ function App() {
 
   const handleAddRecipe = (recipe: ICreateRecipe) => {
     const newRecipe = {
-      ID: Math.max(...recipes.map((b) => b.ID)) + 1 || 1,
+      id: Math.max(...recipes.map((b) => b.id)) + 1 || 1,
       title: recipe.title,
       ingredients: recipe.ingredients,
       steps: recipe.steps,
@@ -52,15 +52,15 @@ function App() {
   const handleUpdateRecipe = (updatedRecipe) => {
     setRecipes((prevRecipes) =>
       prevRecipes.map((recipe) =>
-        recipe.ID === updatedRecipe.ID ? updatedRecipe : recipe
+        recipe.id === updatedRecipe.ID ? updatedRecipe : recipe
       )
     );
   };
   
   const handleDeleteRecipe = (id: number) => {
-    const recipeToDelete = recipes.find((recipe) => recipe.ID === id);
+    const recipeToDelete = recipes.find((recipe) => recipe.id === id);
     if (recipeToDelete) {
-      setRecipes(recipes.filter((recipe) => recipe.ID !== id));
+      setRecipes(recipes.filter((recipe) => recipe.id !== id));
       alert(`Recipe '${recipeToDelete.title}' deleted successfully!`);
     }
   };
@@ -69,11 +69,6 @@ function App() {
     <BrowserRouter>
       <nav>
         <ul>
-          <li>
-            {/* <Link to="/">
-              <img src="/favicon.ico" alt="Recipe Logo" width="20" />
-            </Link> */}
-          </li>
           <li>
             <Link to="/">Home</Link>
           </li>
@@ -94,11 +89,10 @@ function App() {
               <RecipeDetails
                 recipes={recipes}
                 onUpdateRecipe={handleUpdateRecipe}
-                onDeleteRecipe={handleDeleteRecipe}
               />
             }
           />
-        <Route path="/create" element={<CreateRecipe onAddRecipe={handleAddRecipe} recipes={recipes.map(recipe => ({ id: recipe.ID, title: recipe.title, ingredients: recipe.ingredients, steps: recipe.steps, cookingTime: recipe.cookingTime }))} />} />
+        <Route path="/create" element={<CreateRecipe onAddRecipe={handleAddRecipe} recipes={recipes.map(recipe => ({ id: recipe.id, title: recipe.title, ingredients: recipe.ingredients, steps: recipe.steps, cookingTime: recipe.cookingTime }))} />} />
         </Routes>
       </main>
     </BrowserRouter>

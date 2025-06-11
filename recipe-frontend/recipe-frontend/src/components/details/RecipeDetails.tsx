@@ -6,7 +6,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 export interface IRecipeDetails {
-  ID: number;
+  // ID: number;
+  id: number;
   title: string;
   ingredients: string;
   cookingTime: number;
@@ -18,10 +19,9 @@ export interface IRecipeDetails {
 interface Props {
   recipes: IRecipeDetails[];
   onUpdateRecipe: (recipe: IRecipeDetails) => void;
-  onDeleteRecipe: (id: number) => void; 
 }
 
-const RecipeDetails: React.FC<Props> = ({ recipes: recipeList, onUpdateRecipe, onDeleteRecipe }) => {
+const RecipeDetails: React.FC<Props> = ({ recipes: recipeList, onUpdateRecipe }) => {
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -30,26 +30,26 @@ const RecipeDetails: React.FC<Props> = ({ recipes: recipeList, onUpdateRecipe, o
   const [ingredients, setIngredients] = useState('');
   const [steps, setSteps] = useState('');
   const [cookingTime, setCookingTime] = useState<number>(0);
-  const [genre, setGenre] = useState(recipe?.dietaryTags || '');
+  const [dietaryTags, setDietaryTags] = useState(recipe?.dietaryTags || '');
   const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
-    const recipeFound = recipeList.find((recipe) => recipe.ID === Number(id));
+    console.log('recipeList: ', recipeList);
+    const recipeFound = recipeList.find((recipe) => recipe.id === Number(id));
+    console.log("recipeFound:", recipeFound);
     if(recipeFound){
-        setRecipe(recipeFound);
-        if (recipeFound && recipeFound.dietaryTags) {
-          setTitle(recipeFound.title);
-          setIngredients(recipeFound.ingredients);
-          setSteps(recipeFound.steps);
-          setCookingTime(recipeFound.cookingTime);
-          const dietaryTagName = dietaryTagsMapper(recipeFound.dietaryTags);
-          setGenre(dietaryTagName.toString());
-        }
+      setRecipe(recipeFound);
+      if (recipeFound && recipeFound.dietaryTags) {
+        setTitle(recipeFound.title);
+        setIngredients(recipeFound.ingredients);
+        setSteps(recipeFound.steps);
+        setCookingTime(recipeFound.cookingTime);
+        const dietaryTagName = dietaryTagsMapper(recipeFound.dietaryTags);
+        setDietaryTags(dietaryTagName.toString());
+      }
+    } else{
+      setRecipe(null);
     }
-    else{
-        setRecipe(null);
-    }
-   
   }, [recipeList, id, dietaryTagsMapper]);
 
 
@@ -57,40 +57,30 @@ const RecipeDetails: React.FC<Props> = ({ recipes: recipeList, onUpdateRecipe, o
     event.preventDefault();
   
     const updatedRecipe: IRecipeDetails = {
-      ID: recipe ? recipe.ID : 0,
+      id: recipe ? recipe.id : 0,
       title,
       ingredients,
       steps,
       cookingTime,
       dietaryTagsId: recipe ? recipe.dietaryTagsId : 0,
-      dietaryTags: genre,
+      dietaryTags: dietaryTags,
     };
   
     try {
       // Calling API
-      const response = await RestService.updateRecipe(updatedRecipe.ID, updatedRecipe);
+      const response = await RestService.updateRecipe(updatedRecipe.id, updatedRecipe);
       console.log('Updated recipe via API:', response);
   
       // 💾 Notify parent so it updates app state too
       onUpdateRecipe(updatedRecipe);
   
       setIsUpdating(false);
-      navigate(`/recipes/RecipeDetails/${updatedRecipe.ID}`);
+      navigate(`/recipes/${updatedRecipe.id}`);
     } catch (error) {
       console.error('Update failed:', error);
     }
   };
-  
 
-  const handleDeleteClick = () => {
-    if (id !== undefined) {
-    onDeleteRecipe(parseInt(id));
-    navigate('/recipes');
-    }
-    else{
-        console.error('Recipe ID is undefined');
-    }
-  };
 
   const handleUpdateClick = () => {
     setIsUpdating(true);
@@ -98,7 +88,7 @@ const RecipeDetails: React.FC<Props> = ({ recipes: recipeList, onUpdateRecipe, o
     setIngredients(recipe ? recipe.ingredients: 'null ingredient');
     setSteps(recipe ? recipe.steps : 'null steps');
     setCookingTime(recipe ? recipe.cookingTime : 0);
-    setGenre(recipe ? recipe.dietaryTags : 'null dietary tags');
+    setDietaryTags(recipe ? recipe.dietaryTags : 'null dietary tags');
   };
 
   const handleEditRecipe = async (recipe: IRecipeDetails) => {
@@ -145,14 +135,6 @@ const RecipeDetails: React.FC<Props> = ({ recipes: recipeList, onUpdateRecipe, o
           >
             Update
           </button>
-          &nbsp; &nbsp;
-          <button
-            className="update-button"
-            type="button"
-            onClick={handleDeleteClick}
-          >
-            Delete
-          </button>
         </div>
       )}
       {isUpdating && (
@@ -193,13 +175,24 @@ const RecipeDetails: React.FC<Props> = ({ recipes: recipeList, onUpdateRecipe, o
                 </td>
               </tr>
               <tr>
-                <th>Genre:</th>
+                <th>Cooking Time:</th>
                 <td>
                   <input
                     className="recipe-details-input"
                     type="text"
-                    value={genre || ""}
-                    onChange={(event) => setGenre(event.target.value)}
+                    value={cookingTime}
+                    onChange={(event) => setCookingTime(parseInt(event.target.value, 10))}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th>Dietary Tags:</th>
+                <td>
+                  <input
+                    className="recipe-details-input"
+                    type="text"
+                    value={dietaryTags || ""}
+                    onChange={(event) => setDietaryTags(event.target.value)}
                   />
                 </td>
               </tr>
