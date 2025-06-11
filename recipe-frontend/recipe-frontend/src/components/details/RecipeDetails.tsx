@@ -34,23 +34,23 @@ const RecipeDetails: React.FC<Props> = ({ recipes: recipeList, onUpdateRecipe })
   const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
-    console.log('recipeList: ', recipeList);
-    const recipeFound = recipeList.find((recipe) => recipe.id === Number(id));
-    console.log("recipeFound:", recipeFound);
-    if(recipeFound){
-      setRecipe(recipeFound);
-      if (recipeFound && recipeFound.dietaryTags) {
-        setTitle(recipeFound.title);
-        setIngredients(recipeFound.ingredients);
-        setSteps(recipeFound.steps);
-        setCookingTime(recipeFound.cookingTime);
-        const dietaryTagName = dietaryTagsMapper(recipeFound.dietaryTags);
+    if (!id || isNaN(Number(id))) return;
+    const fetchRecipe = async () => {
+      try {
+        const response = await RestService.getRecipe(Number(id));
+        setRecipe(response.data);
+        setTitle(response.data.title);
+        setIngredients(response.data.ingredients);
+        setSteps(response.data.steps);
+        setCookingTime(response.data.cookingTime);
+        const dietaryTagName = dietaryTagsMapper(response.data.dietaryTags);
         setDietaryTags(dietaryTagName.toString());
+      } catch (error) {
+        console.error(error);
       }
-    } else{
-      setRecipe(null);
-    }
-  }, [recipeList, id, dietaryTagsMapper]);
+    };
+    fetchRecipe();
+  }, [id]);
 
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

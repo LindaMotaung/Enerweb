@@ -52,7 +52,7 @@ const CreateRecipe: React.FC<Props> = ({ onAddRecipe, recipes }) => {
       setSuccessMessage(`Recipe "${title}" created successfully!`);
       setTimeout(() => {
         setSuccessMessage('');
-        navigate(`/recipes/${response.data.ID}`);
+        navigate(`/recipes/${response.data.id}`);
       }, 800);
     } catch (error) {
       console.error(error);
