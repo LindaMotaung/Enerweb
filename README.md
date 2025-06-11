@@ -1,0 +1,50 @@
+**Architectural Overview**
+We followed Clean Architecture principles, splitting the system into four major projects/layers:
+
+**1. API Layer**
+Contains: Controllers that expose HTTP endpoints.
+
+Depends on: Application Layer.
+
+Responsibility: Maps HTTP requests to service calls, returns proper HTTP responses.
+
+**2. Application Layer**
+Contains: Business logic, use cases, service interfaces.
+
+Depends on: Domain Layer (for models and contracts).
+
+Responsibility: Orchestrates behavior by calling domain/repository services.
+
+**3. Domain Layer**
+Contains: Entities (Recipe), interfaces (IRecipeRepository).
+
+Independent: No external dependencies.
+
+Responsibility: Defines the core model and behavior.
+
+**4. Infrastructure Layer (Persistence)**
+Contains: Implementations of repositories (e.g., RecipeRepository), DbContext.
+
+Depends on: Domain Layer and EF Core.
+
+Responsibility: Handles data access to the underlying database.
+
+**5. Frontend (React)**
+Separate Vite React App: Fetches recipes from the backend via HTTP.
+
+Responsibility: User interface for interacting with recipes.
+
+**Trade-offs, Pros & Cons**
+**Pros**
+**Feature**	                                  **Benefit**
+Clean separation of concerns	            Each layer has a focused responsibility. Easy to test and maintain.
+Domain-centric design	                    Core business logic is isolated and technology-agnostic.
+Easily extensible	                        New features can be added with minimal cross-layer impact.
+Mockable layers	                         Infrastructure and database can be mocked for unit testing.
+
+**Cons / Trade-offs**
+**Issue**	                                    **Trade-off**
+No Identity/Auth implemented	            We skipped JWT-based authentication for simplicity/time, leaving it vulnerable.
+Lack of authorization control	            Any user can hit endpoints; no role-based or permission validation.
+Added complexity from layering	          Overkill for small apps, adds verbosity and learning curve.
+Initial dev cost	                        More code and boilerplate upfront compared to a simple monolith.
