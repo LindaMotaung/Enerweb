@@ -1,34 +1,30 @@
 import DietaryTags from '../features/recipes/enums/EDietaryTags';
 
-const dietaryTagsMapper = (dietaryTagsString: string | string[]): number => {
+const dietaryTagsMapper = (dietaryTagsString: string | string[]): string => {
   if (Array.isArray(dietaryTagsString)) {
     dietaryTagsString = dietaryTagsString[0];
   }
-  
   if (typeof dietaryTagsString !== "string") {
     throw new Error(`Invalid dietary tag type: ${typeof dietaryTagsString}`);
   }
-
-    switch (dietaryTagsString.toLowerCase()) {
-      case 'keto':
-        return DietaryTags.Keto;
-      case 'vegan':
-        return DietaryTags.Vegan;
-      case 'lactose':
-        return DietaryTags.lactose;
-      case 'Lactose':
-        return DietaryTags.lactose;
-      case 'atchaar':
-        return DietaryTags.Atchaar;
-      case 'spinach':
-        return DietaryTags.Spinach;
-      case 'lemon':
-        return DietaryTags.Lemon; 
-      case 'sugar':
-        return DietaryTags.Sugar; 
-      default:
-        throw new Error(`Invalid dietary tag: ${dietaryTagsString}`);
-    }
-  };
+  switch (dietaryTagsString.toLowerCase()) {
+    case 'keto':
+      return 'keto';
+    case 'vegan':
+      return 'vegan';
+    case 'lactose':
+      return 'lactose';
+    case 'atchaar':
+      return 'atchaar';
+    case 'spinach':
+      return 'spinach';
+    case 'lemon':
+      return 'lemon';
+    case 'sugar':
+      return 'sugar';
+    default:
+      return dietaryTagsString; // Return the dietary tag as is
+  }
+};
 
   export default dietaryTagsMapper;

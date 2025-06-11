@@ -41,11 +41,8 @@ const CreateRecipe: React.FC<Props> = ({ onAddRecipe, recipes }) => {
       steps: steps,
       cookingTime: cookingTime,
       dietaryTags: [dietaryTag],
-      //dietaryTagId: dietaryTagsMapperId,
     };
-
     console.log('newRecipe:', newRecipe);
-
     try {
       const response = await RestService.addRecipe(newRecipe);
       console.log('Created recipe response:', response.data);
@@ -58,6 +55,7 @@ const CreateRecipe: React.FC<Props> = ({ onAddRecipe, recipes }) => {
       console.error(error);
     }
   };
+  
 
   return (
     <div className="create-recipe-container">
