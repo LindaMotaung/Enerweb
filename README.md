@@ -57,3 +57,17 @@ Monitoring	                               Not configured — no logging, tracing
 Fix:	                                     Add Serilog, Seq, Application Insights, or ELK stack.
 Data Validation	                           Done via models and controller-level validation.
 CORS	                                     Not explicitly configured — ensure only trusted frontends can call the API. Accepting all CORS for simplicity of dev environment however IPs should either be whitelisted and requests coming from the same netwrok in prod
+
+**Cost Implications**
+**Component**	                                      **Cost Trade-off**
+Clean Architecture	                      More upfront dev time; pays off long-term for large codebases.
+No Auth	                                  Security risk → could lead to data leaks. Minimal effort to mitigate via JWT.
+No Monitoring                           	Harder to troubleshoot; may lead to higher maintenance cost.
+Test Coverage	                            Added effort but improves confidence and reduces regression risks.
+
+**Summary**
+We used Clean Architecture with a proper layering strategy.
+Unit tests cover repositories and services.
+The frontend is being developed using modern React (Vite).
+We deliberately omitted authentication and monitoring for time and scope constraints.
+However, that decision leaves our API exposed and should be addressed before production.
