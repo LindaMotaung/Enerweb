@@ -1,0 +1,127 @@
+.recipe-details-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #999692;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recipe-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .recipe-cover {
+    width: 200px;
+    height: 300px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recipe-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .recipe-info p {
+    margin-bottom: 10px;
+  }
+  
+  .recipe-info b {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  .update-button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .update-button:hover {
+    background-color: #3e8e41;
+  }
+  
+  .update-button:active {
+    transform: scale(0.9);
+  }
+  
+  .update-form {
+    margin-top: 20px;
+  }
+  
+  .recipe-details-label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .recipe-details-input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+  }
+
+  .recipe-details-container {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #c5c4c3;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recipe-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #c5c4c3;
+  }
+  
+  .recipe-details-table th, .recipe-details-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .recipe-details-table th {
+    font-weight: bold;
+    width: 30%;
+  }
+  
+  .recipe-details-table td {
+    width: 70%;
+  }
+  
+  .update-button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+  }
+  
+  .update-button:hover {
+    background-color: #3e8e41;
+  }
+  
+  .update-button:active {
+    transform: scale(0.9);
+  }
+  
